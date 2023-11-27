@@ -1,0 +1,78 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MemberController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PublicationController;
+use App\Http\Controllers\IncomingMailController;
+use App\Http\Controllers\OutgoingMailController;
+use App\Http\Controllers\ComunityExperienceController;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
+
+// Main Route
+Route::get('/', [LoginController::class, 'index']);
+
+//Login and Logout Route
+Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
+Route::post('/login', [LoginController::class, 'authenticate']);
+Route::post('/logout', [LoginController::class, 'logout']);
+
+//Route Dashboard
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+
+//Route Users
+Route::resource('/dashboard/users', UserController::class)->middleware('auth');
+
+Route::get('/dashboard/profile/{user}', [UserController::class, 'show'])->middleware('auth');
+Route::put('/dashboard/profile', [UserController::class, 'updateProfile'])->middleware('auth');
+
+//Route Members
+Route::resource('/dashboard/members', MemberController::class, [
+    'parameters' => [
+    'members' => 'member',
+],
+])->middleware('auth');
+
+//Route Publications
+Route::resource('/dashboard/archive/publications', PublicationController::class)->middleware('auth');
+
+//Route Mails
+Route::middleware(['auth'])->group(function () {
+    //Route Incoming Mails
+    Route::resource('/dashboard/mails/incoming-mails', IncomingMailController::class);
+
+    //Route Outgoing Mails
+    Route::resource('/dashboard/mails/outgoing-mails', OutgoingMailController::class);
+});
+
+//Route Experiences
+Route::middleware(['auth'])->group(function () {
+    Route::resource('/dashboard/experiences', ComunityExperienceController::class)
+    ->except(['destroy', 'show', 'edit', 'update']);
+
+    Route::get('/dashboard/experiences/{comunityExperience}', [ComunityExperienceController::class, 'show'])
+        ->name('experiences.show');
+
+    Route::get('/dashboard/experiences/{comunityExperience}/edit', [ComunityExperienceController::class, 'edit'])
+        ->name('experiences.edit');
+
+    Route::put('/dashboard/experiences/{comunityExperience}', [ComunityExperienceController::class, 'update'])
+        ->name('experiences.update');
+
+    Route::delete('/dashboard/experiences/{comunityExperience}', [ComunityExperienceController::class, 'destroy'])
+        ->name('experiences.destroy');
+});
+
+//Route Mixpost

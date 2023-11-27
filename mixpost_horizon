@@ -1,0 +1,7 @@
+[program:mixpost_horizon]
+process_name=%(program_name)s
+command=php /path-to-your-project/artisan horizon
+autostart=true
+autorestart=true
+user=your_user_name
+stopwaitsecs=3600
