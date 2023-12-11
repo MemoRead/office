@@ -77,7 +77,7 @@
 
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 label">Number ID</div>
-                                        <div class="col-lg-9 col-md-8">{{ $user->employee->nik }}</div>
+                                        <div class="col-lg-9 col-md-8">{{ $user->member->nik }}</div>
                                     </div>
 
                                     <div class="row">
