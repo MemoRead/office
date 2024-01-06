@@ -14,6 +14,21 @@ class OutgoingMail extends Model
         'id',
     ];
 
+    protected $fillable = [
+        'type',
+        'number',
+        'letter_number',
+        'city',
+        'date',
+        'subject',
+        'attachment',
+        'receiver',
+        're_location',
+        'content',
+        'file',
+        'member_id',
+    ];
+
     public function member()
     {
         return $this->belongsTo(Member::class);

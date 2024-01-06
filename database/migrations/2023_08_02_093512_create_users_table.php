@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['user']);
+            $table->enum('role', ['admin', 'user']);
             $table->string('ig_access_token')->nullable();
             $table->timestamps();
 

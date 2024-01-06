@@ -24,7 +24,11 @@
                         @if (session()->has('success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <i class="bi bi-check-circle me-1"></i>
-                                {{ session('success') }}
+                                {{ session('success')['message'] }}
+                                @if (session('success')['filePreviewUrl'])
+                                    <br>
+                                    <a href="{{ session('success')['filePreviewUrl'] }}" download>Download Preview File</a>
+                                @endif
                                 <button type="button" class="btn-close" data-bs-dismiss="alert"
                                     aria-label="Close"></button>
                             </div>
@@ -44,6 +48,7 @@
                                         <th scope="col">Receiver</th>
                                         <th scope="col">Subject</th>
                                         <th scope="col">Letter Type</th>
+                                        <th scope="col">File</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
@@ -51,7 +56,7 @@
                                     @foreach ($mails as $mail)
                                         <tr>
                                             <th scope="row">{{ $loop->iteration }}</th>
-                                            <td>{{ $mail->number }}</td>
+                                            <td>{{ $mail->letter_number }}</td>
                                             <td>{{ $mail->member->name }}</td>
                                             <td>{{ \Carbon\Carbon::parse($mail->date)->format('F j, Y') }}</td>
                                             <td>{{ $mail->receiver }}</td>
@@ -60,18 +65,33 @@
                                                 {{ $mail->type }}
                                             </td>
                                             <td class="text-center">
+                                                <!-- Tombol Download PDF -->
+                                                <a href="{{ asset('storage/' . $mail->file) }}" class="btn btn-danger"
+                                                    download>
+                                                    <i class="bi bi-file-pdf"></i>
+                                                </a>
+
+                                                <!-- Tombol Download DOCX -->
+                                                <a href="{{ asset('storage/undangan/' . $mail->number . '_undangan.docx') }}"
+                                                    class="btn btn-info" download>
+                                                    <i class="bi bi-file-word"></i>
+                                                </a>
+                                            </td>
+                                            <td class="text-center">
                                                 <a href="/dashboard/mails/outgoing-mails/{{ $mail->id }}"
                                                     class="btn btn-primary"><i class="bi bi-eye"></i></a>
-                                                <a href="/dashboard/mails/outgoing-mails/{{ $mail->id }}/edit"
-                                                    class="btn btn-warning"><i class="bi bi-pencil-fill"></i></a>
-                                                <form action="/dashboard/mails/outgoing-mails/{{ $mail->id }}"
-                                                    method="post" class="d-inline">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button class="btn btn-danger"
-                                                        onclick="return confirm('Are you sure?')"><i
-                                                            class="bi bi-trash"></i></button>
-                                                </form>
+                                                @if (Auth::user()->role == 'admin')
+                                                    <a href="/dashboard/mails/outgoing-mails/{{ $mail->id }}/edit"
+                                                        class="btn btn-warning"><i class="bi bi-pencil-fill"></i></a>
+                                                    <form action="/dashboard/mails/outgoing-mails/{{ $mail->id }}"
+                                                        method="post" class="d-inline">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button class="btn btn-danger"
+                                                            onclick="return confirm('Are you sure?')"><i
+                                                                class="bi bi-trash"></i></button>
+                                                    </form>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

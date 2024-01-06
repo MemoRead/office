@@ -32,33 +32,17 @@ Route::post('/logout', [LoginController::class, 'logout']);
 //Route Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 
-//Route Users
-Route::resource('/dashboard/users', UserController::class)->middleware('auth');
+Route::group(['middleware' => ['auth', 'admin']], function() {
+    //Route Users
+    Route::resource('/dashboard/users', UserController::class);
 
-Route::get('/dashboard/profile/{user}', [UserController::class, 'show'])->middleware('auth');
-Route::put('/dashboard/profile', [UserController::class, 'updateProfile'])->middleware('auth');
+    //Route Members
+    Route::resource('/dashboard/members', MemberController::class, [
+        'parameters' => [
+        'members' => 'member',
+    ],
+    ]);
 
-//Route Members
-Route::resource('/dashboard/members', MemberController::class, [
-    'parameters' => [
-    'members' => 'member',
-],
-])->middleware('auth');
-
-//Route Publications
-Route::resource('/dashboard/archive/publications', PublicationController::class)->middleware('auth');
-
-//Route Mails
-Route::middleware(['auth'])->group(function () {
-    //Route Incoming Mails
-    Route::resource('/dashboard/mails/incoming-mails', IncomingMailController::class);
-
-    //Route Outgoing Mails
-    Route::resource('/dashboard/mails/outgoing-mails', OutgoingMailController::class);
-});
-
-//Route Experiences
-Route::middleware(['auth'])->group(function () {
     Route::resource('/dashboard/experiences', ComunityExperienceController::class)
     ->except(['destroy', 'show', 'edit', 'update']);
 
@@ -73,6 +57,23 @@ Route::middleware(['auth'])->group(function () {
 
     Route::delete('/dashboard/experiences/{comunityExperience}', [ComunityExperienceController::class, 'destroy'])
         ->name('experiences.destroy');
+
 });
 
-//Route Mixpost
+// Route Profile
+Route::get('/dashboard/profile/{user}', [UserController::class, 'show'])->middleware('auth');
+Route::put('/dashboard/profile', [UserController::class, 'updateProfile'])->middleware('auth');
+
+//Route Publications
+Route::resource('/dashboard/archive/publications', PublicationController::class)->middleware('auth');
+
+//Route Mails
+Route::middleware(['auth'])->group(function () {
+    //Route Incoming Mails
+    Route::resource('/dashboard/mails/incoming-mails', IncomingMailController::class);
+
+    //Route Outgoing Mails
+    Route::resource('/dashboard/mails/outgoing-mails', OutgoingMailController::class);
+    Route::get('/documents/get-last-number', [OutgoingMailController::class, 'getLastNumber']);
+});
+

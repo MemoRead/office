@@ -25,7 +25,7 @@
 
                             <li class="nav-item">
                                 <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview"
-                                    disabled>{{ $mail->number }}</button>
+                                    disabled>{{ $mail->letter_number }}</button>
                             </li>
 
                         </ul>

@@ -55,16 +55,18 @@
                                             <td class="text-center">
                                                 <a href="/dashboard/archive/publications/{{ $pub->id }}"
                                                     class="btn btn-primary"><i class="bi bi-eye"></i></a>
-                                                <a href="/dashboard/archive/publications/{{ $pub->id }}/edit"
-                                                    class="btn btn-warning"><i class="bi bi-pencil-fill"></i></a>
-                                                <form action="/dashboard/archive/publications/{{ $pub->id }}"
-                                                    method="post" class="d-inline">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button class="btn btn-danger"
-                                                        onclick="return confirm('Are you sure?')"><i
-                                                            class="bi bi-trash"></i></button>
-                                                </form>
+                                                @if (Auth::user()->role == 'admin')
+                                                    <a href="/dashboard/archive/publications/{{ $pub->id }}/edit"
+                                                        class="btn btn-warning"><i class="bi bi-pencil-fill"></i></a>
+                                                    <form action="/dashboard/archive/publications/{{ $pub->id }}"
+                                                        method="post" class="d-inline">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button class="btn btn-danger"
+                                                            onclick="return confirm('Are you sure?')"><i
+                                                                class="bi bi-trash"></i></button>
+                                                    </form>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

@@ -13,12 +13,16 @@ return new class extends Migration
     {
         Schema::create('outgoing_mails', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('number')->nullable();
-            $table->dateTime('date');
-            $table->string('receiver');
-            $table->string('subject');
             $table->string('type');
-            $table->string('content')->nullable();
+            $table->string('number')->unique();
+            $table->string('letter_number');
+            $table->string('city');
+            $table->date('date');
+            $table->string('subject');
+            $table->string('attachment');
+            $table->string('receiver');
+            $table->string('re_location');
+            $table->string('content');
             $table->string('file')->nullable();
             $table->foreignUuid('member_id')->constrained()->cascadeOnDelete();
             $table->softDeletes();

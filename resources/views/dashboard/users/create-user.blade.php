@@ -70,6 +70,7 @@
                         <select class="form-select @error('role') is-invalid @enderror" id="floatingSelect"
                             aria-label="Role" name="role">
                             <option selected>Choose</option>
+                            <option value="admin">Admin</option>
                             <option value="user">User</option>
                         </select>
                         <label for="floatingSelect">Role</label>

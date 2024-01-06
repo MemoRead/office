@@ -71,6 +71,7 @@
 
      <ul class="sidebar-nav" id="sidebar-nav">
 
+
          <!-- Dashboard -->
          <li class="nav-item">
              <a class="nav-link {{ Request::is('dashboard') ? '' : 'collapsed' }}" href="/dashboard">
@@ -79,23 +80,28 @@
              </a>
          </li><!-- End Dashboard Nav -->
 
-         <!-- Users -->
-         <li class="nav-item">
-             <a class="nav-link {{ Request::is('dashboard/users*') ? '' : 'collapsed' }}" href="/dashboard/users">
-                 <i class="bi bi-person-gear"></i>
-                 <span>Users</span>
-             </a>
-         </li><!-- End Users Nav -->
+         @if (Auth::user()->role == 'admin')
+             <!-- Users -->
+             <li class="nav-item">
+                 <a class="nav-link {{ Request::is('dashboard/users*') ? '' : 'collapsed' }}" href="/dashboard/users">
+                     <i class="bi bi-person-gear"></i>
+                     <span>Users</span>
+                 </a>
+             </li><!-- End Users Nav -->
+         @endif
 
          <li class="nav-heading">Office</li>
 
-         <!-- Members -->
-         <li class="nav-item">
-             <a class="nav-link {{ Request::is('dashboard/members*') ? '' : 'collapsed' }}" href="/dashboard/members">
-                 <i class="bi bi-people"></i>
-                 <span>Members</span>
-             </a>
-         </li><!-- End Members Nav -->
+         @if (Auth::user()->role == 'admin')
+             <!-- Members -->
+             <li class="nav-item">
+                 <a class="nav-link {{ Request::is('dashboard/members*') ? '' : 'collapsed' }}"
+                     href="/dashboard/members">
+                     <i class="bi bi-people"></i>
+                     <span>Members</span>
+                 </a>
+             </li><!-- End Members Nav -->
+         @endif
 
          <!-- Mails -->
          <li class="nav-item">
@@ -135,21 +141,22 @@
              </ul>
          </li><!-- End Archive Nav -->
 
-         <!-- Experiences -->
-         <li class="nav-item">
-             <a class="nav-link {{ Request::is('dashboard/experiences*') ? '' : 'collapsed' }}"
-                 href="/dashboard/experiences">
-                 <i class="bi bi-clipboard-check"></i>
-                 <span>Comunity Experiences</span>
-             </a>
-         </li><!-- End Experiences Page Nav -->
+         @if (Auth::user()->role == 'admin')
+             <!-- Experiences -->
+             <li class="nav-item">
+                 <a class="nav-link {{ Request::is('dashboard/experiences*') ? '' : 'collapsed' }}"
+                     href="/dashboard/experiences">
+                     <i class="bi bi-clipboard-check"></i>
+                     <span>Comunity Experiences</span>
+                 </a>
+             </li><!-- End Experiences Page Nav -->
+         @endif
 
          <li class="nav-heading">Pages</li>
 
          <!-- Mixpost -->
          <li class="nav-item">
-             <a class="nav-link {{ Request::is('/mixpost') ? '' : 'collapsed' }}"
-                 href="/mixpost" target="_blank">
+             <a class="nav-link {{ Request::is('/mixpost') ? '' : 'collapsed' }}" href="/mixpost" target="_blank">
                  <i class="bi bi-window"></i>
                  <span>Social CMS</span>
              </a>

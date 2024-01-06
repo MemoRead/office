@@ -61,6 +61,8 @@
                             <option value="" {{ old('role', $user->role) === null ? 'selected' : '' }}>Choose</option>
                             <option value="user" {{ old('role', $user->role) === 'user' ? 'selected' : '' }}>User
                             </option>
+                            <option value="admin" {{ old('role', $user->role) === 'admin' ? 'selected' : '' }}>Admin
+                            </option>
                         </select>
                         <label for="floatingSelect">Role</label>
                     </div>
