@@ -1,6 +1,6 @@
 [program:mixpost_horizon]
 process_name=%(program_name)s
-command=php /path-to-your-project/artisan horizon
+command=php /home/yunan/Projects/applications/office/artisan horizon
 autostart=true
 autorestart=true
 user=your_user_name
