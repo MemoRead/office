@@ -153,15 +153,24 @@
          @endif
 
          <li class="nav-heading">Pages</li>
-
-         <!-- Mixpost -->
-         <li class="nav-item">
-             <a class="nav-link {{ Request::is('/mixpost') ? '' : 'collapsed' }}" href="/mixpost" target="_blank">
-                 <i class="bi bi-window"></i>
-                 <span>Social CMS</span>
-             </a>
-         </li><!-- End Experiences Page Nav -->
-
+        
+        @if (Auth::user()->role == 'admin')
+            <!-- Mixpost -->
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('/mixpost') ? '' : 'collapsed' }}" href="/mixpost" target="_blank">
+                    <i class="bi bi-window"></i>
+                    <span>Mixpost</span>
+                </a>
+            </li>
+        @else
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('dashboard/social') ? '' : 'collapsed' }}" href="/dashboard/social">
+                    <i class="bi bi-window"></i>
+                    <span>Social CMS</span>
+                </a>
+            </li>
+            <!-- Mixpost -->
+        @endif
          <!-- My Profile -->
          <li class="nav-item">
              <a class="nav-link {{ Request::is('dashboard/profile*') ? '' : 'collapsed' }}"
@@ -169,7 +178,8 @@
                  <i class="bi bi-person"></i>
                  <span>Profile</span>
              </a>
-         </li><!-- End Profile Page Nav -->
+         </li>
+         <!-- End Profile Page Nav -->
 
      </ul>
 

@@ -9,6 +9,7 @@ use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\IncomingMailController;
 use App\Http\Controllers\OutgoingMailController;
 use App\Http\Controllers\ComunityExperienceController;
+use App\Http\Controllers\SocialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,6 +64,9 @@ Route::group(['middleware' => ['auth', 'admin']], function() {
 // Route Profile
 Route::get('/dashboard/profile/{user}', [UserController::class, 'show'])->middleware('auth');
 Route::put('/dashboard/profile', [UserController::class, 'updateProfile'])->middleware('auth');
+
+// Route Social
+Route::get('/dashboard/social', [SocialController::class, 'index'])->middleware('auth')->name('social.index');
 
 //Route Publications
 Route::resource('/dashboard/archive/publications', PublicationController::class)->middleware('auth');
